@@ -1,0 +1,26 @@
+{
+  "name": "events-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "20",
+    "npm": "9"
+  },
+  "scripts": {
+    "postinstall": "npm run bootstrap",
+    "bootstrap": "mkdir -p cert && npm run create-certs",
+    "create-certs": "node ./node_modules/@qelos/plugin-play/create-cert.js",
+    "dev": "tsx watch ./server.ts",
+    "start": "tsx ./server.ts",
+    "build:cd": "npm i --production"
+  },
+  "dependencies": {
+    "@qelos/plugin-play": "^3.4.1",
+    "mongodb": "^5.9.2",
+    "tsx": "^3.14.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
+}

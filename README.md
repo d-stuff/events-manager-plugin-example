@@ -1,0 +1,1 @@
+# events-manager-plugin-example
