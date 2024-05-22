@@ -12,13 +12,16 @@ createCrud<EventDoc>({
     return true;
   },
   readOne: (_id, { tenantPayload }) => events.findOne({ _id: new ObjectId(_id), tenant: tenantPayload.sub }),
-  createOne: async (body, { user }) => {
-    const data: any = { ...body, user: user._id };
+  createOne: async (body, { user, tenantPayload }) => {
+    const data: any = { ...body, user: user._id, tenant: tenantPayload.sub };
     const res = await events.insertOne(data);
     data._id = res.insertedId;
     return data;
   },
-  readMany: (query, { tenantPayload }) => events.find({ tenant: tenantPayload.sub, tags: query.tags }).toArray(),
+  readMany: async (query, { tenantPayload }) => {
+    console.log(tenantPayload)
+    return events.find({ tenant: tenantPayload.sub }).toArray()
+  },
   updateOne: async (_id, body: EventDoc, { user, tenantPayload }) => {
     await events.updateOne({
       _id: new ObjectId(_id),
@@ -72,7 +75,9 @@ createCrud<EventDoc>({
   screens: {
     create: {
       structure: `
-      <h1>Create an event</h1>
+      <EditHeader>
+        Create the event here
+      </EditHeader>
       <FormRowGroup>
         <FormInput v-model="row.title" title="Title" />
         <FormInput v-model="row.description" title="Description" />
