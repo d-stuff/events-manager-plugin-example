@@ -19,7 +19,10 @@ createCrud<EventDoc>({
     return data;
   },
   readMany: async (query, { tenantPayload }) => {
-    console.log(tenantPayload)
+    const dbQuery: any = { tenant: tenantPayload.sub };
+    if (query.tags) {
+      dbQuery.tags = query.tags
+    }
     return events.find({ tenant: tenantPayload.sub }).toArray()
   },
   updateOne: async (_id, body: EventDoc, { user, tenantPayload }) => {
